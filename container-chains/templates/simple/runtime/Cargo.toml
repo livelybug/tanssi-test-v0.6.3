@@ -101,6 +101,9 @@ parachains-common = { workspace = true }
 frame-benchmarking = { workspace = true, optional = true }
 frame-system-benchmarking = { workspace = true, optional = true }
 frame-try-runtime = { workspace = true, optional = true }
+pallet-insecure-randomness-collective-flip = { workspace = true, default-features = true }
+pallet-lottery-example = { workspace = true, features = [ "std" ] }
+
 [build-dependencies]
 substrate-wasm-builder = { workspace = true }
 
@@ -179,6 +182,8 @@ std = [
 	"staging-xcm-executor/std",
 	"staging-xcm/std",
 	"xcm-primitives/std",
+	"pallet-lottery-example/std",
+	"pallet-insecure-randomness-collective-flip/std",
 ]
 
 # Allow to print logs details (no wasm:stripped)

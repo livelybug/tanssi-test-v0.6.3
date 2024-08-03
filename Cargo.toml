@@ -44,6 +44,9 @@ type_complexity = { level = "allow", priority = 2 }
 unsafe-code = { level = "deny", priority = 1 }
 
 [workspace.dependencies]
+# Custom1
+pallet-insecure-randomness-collective-flip = { git = "https://github.com/moondance-labs/polkadot-sdk", branch = "tanssi-polkadot-v1.6.0", default-features = false }
+pallet-lottery-example = { path = "pallets/lottery-example", default-features = false }
 
 # Members
 pallet-author-noting = { path = "pallets/author-noting", default-features = false }

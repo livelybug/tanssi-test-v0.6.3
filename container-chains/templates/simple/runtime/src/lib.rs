@@ -53,6 +53,7 @@ use {
             ConstantMultiplier, Weight, WeightToFeeCoefficient, WeightToFeeCoefficients,
             WeightToFeePolynomial,
         },
+        PalletId,
     },
     frame_system::{
         limits::{BlockLength, BlockWeights},
@@ -677,6 +678,8 @@ construct_runtime!(
         RootTesting: pallet_root_testing = 100,
         AsyncBacking: pallet_async_backing::{Pallet, Storage} = 110,
 
+        Lottery: pallet_lottery_example,
+        RandomCollectiveFlip: pallet_insecure_randomness_collective_flip,
     }
 );
 
@@ -1138,4 +1141,24 @@ cumulus_pallet_parachain_system::register_validate_block! {
     Runtime = Runtime,
     CheckInherents = CheckInherents,
     BlockExecutor = pallet_author_inherent::BlockExecutor::<Runtime, Executive>,
+}
+
+pub type RandomnessCollectiveFlip = pallet_insecure_randomness_collective_flip::Pallet<Runtime>;
+
+// Add the configuration for randomness module. No parameters needed.
+impl pallet_insecure_randomness_collective_flip::Config for Runtime {}
+
+// Custom module id
+parameter_types! {
+    pub const LotteryPalletId: PalletId = PalletId(*b"loex5678");
+}
+
+// Add configuration for the lottery module
+impl pallet_lottery_example::Config for Runtime {
+    type RuntimeEvent = RuntimeEvent;
+    type Currency = Balances;
+    type TicketCost = ConstU128<1000000000000000>;
+    type PalletId = LotteryPalletId;
+    type MaxParticipants = ConstU32<500>;
+    type MyRandomness = RandomnessCollectiveFlip;
 }
